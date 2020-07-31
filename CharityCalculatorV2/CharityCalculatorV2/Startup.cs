@@ -12,6 +12,8 @@ using CharityCalculatorV2.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Security.Claims;
+using CharityCalculatorV2.Models.Domain;
 
 namespace CharityCalculatorV2
 {
@@ -27,17 +29,40 @@ namespace CharityCalculatorV2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Database connection
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // User identity
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            // User options
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+            });
+
+            // User claims: auth
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Donor", policy => policy.RequireClaim(ClaimTypes.Role, "donor"));
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
+                options.AddPolicy("EventPromotor", policy => policy.RequireClaim(ClaimTypes.Role, "event"));
+            });
+
+            // Scoped services
             services.AddControllersWithViews();
+            services.AddMvc();
             services.AddRazorPages();
+            services.AddScoped<DataInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataInitializer dataInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -62,9 +87,11 @@ namespace CharityCalculatorV2
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=account}/{action=login}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            dataInitializer.InitializeData().Wait();
         }
     }
 }
