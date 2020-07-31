@@ -29,28 +29,29 @@ namespace CharityCalculatorV2.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl = null)
+        public async Task<IActionResult> Login()
         {
             // Clear existing cookie
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-            ViewData["ReturnUrl"] = returnUrl;
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation(User.ToString());
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
-                _logger.LogInformation(result.ToString());
                 if (result.Succeeded)
                 {
-                    return RedirectToLocal(returnUrl);
+                    // redirect here to custom controllers depending on claim!
+
+                    // temporary redirect
+                    return RedirectToAction(nameof(Homecontroller.Index), "Home");
                 }
                 else
                 {
@@ -61,17 +62,17 @@ namespace CharityCalculatorV2.Controllers
             return View(model);
         }
 
-        // Unsure
-        private IActionResult RedirectToLocal(string returnUrl)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
         {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(AccountController.Login), "Account");
-            }
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(Login));
+        }
+
+        public IActionResult LoggedOut()
+        {
+            return View();
         }
     }
 }
