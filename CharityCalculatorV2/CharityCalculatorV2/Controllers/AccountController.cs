@@ -48,7 +48,7 @@ namespace CharityCalculatorV2.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    // redirect here to custom controllers depending on claim!
+                    // redirect to custom controllers depending on claim?
 
                     // temporary redirect
                     return RedirectToAction(nameof(Homecontroller.Index), "Home");
