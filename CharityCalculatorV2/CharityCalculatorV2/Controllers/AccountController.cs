@@ -82,7 +82,8 @@ namespace CharityCalculatorV2.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        public IActionResult LoggedOut()
+        [HttpGet]
+        public IActionResult AccessDenied()
         {
             return View();
         }

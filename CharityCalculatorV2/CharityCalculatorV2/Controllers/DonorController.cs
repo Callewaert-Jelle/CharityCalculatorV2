@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CharityCalculatorV2.Models.DonationViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CharityCalculatorV2.Controllers
 {
+    [Authorize(Policy = "Donor")]
     public class DonorController : Controller
     {
         public IActionResult Index()
@@ -19,15 +21,15 @@ namespace CharityCalculatorV2.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = CalculateDeductableAmount(model.Amount);
-                return RedirectToAction(nameof(Result), new { amount = result });
+                return RedirectToAction(nameof(Result), new { amount = model.Amount });
             }
             return View(model);
         }
 
         public IActionResult Result(double amount)
         {
-            ViewData["amount"] = amount;
+            var result = CalculateDeductableAmount(amount);
+            ViewData["amount"] = result;
             return View();
         }
 
