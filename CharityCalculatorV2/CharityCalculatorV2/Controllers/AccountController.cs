@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CharityCalculatorV2.Controllers
@@ -48,9 +49,20 @@ namespace CharityCalculatorV2.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    // redirect to custom controllers depending on claim?
+                    // get logged in user
+                    var appUser = _signInManager.UserManager.Users.SingleOrDefault(u => u.Email == model.Email);
+                    // get user claims
+                    var claimsPrincipal = await _signInManager.CreateUserPrincipalAsync(appUser);
+                    var claims = claimsPrincipal.Claims.ToList();
 
-                    // temporary redirect
+                    // detect if "donor" claim is present, show donor page
+                    bool donorClaim = claims.Any(c => c.Value == "donor");
+                    if (donorClaim)
+                    {
+                        return RedirectToAction(nameof(DonorController.Index), "Donor");
+                    }
+                    // should not be able to get here (eventually)
+                    // but if anything goes wrong, return Home Index
                     return RedirectToAction(nameof(Homecontroller.Index), "Home");
                 }
                 else
@@ -70,7 +82,8 @@ namespace CharityCalculatorV2.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        public IActionResult LoggedOut()
+        [HttpGet]
+        public IActionResult AccessDenied()
         {
             return View();
         }
