@@ -1,0 +1,19 @@
+﻿@model CharityCalculatorV2.Models.DonationViewModel.DonationViewModel
+@{
+}
+
+<h2>Donor</h2>
+<h3>Calculate the amount that can be deducted from your taxes!</h3>
+
+<div>
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="Amount"></label>
+            <input asp-for="Amount" class="form-control" />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Calculate</button>
+        </div>
+    </form>
+</div>

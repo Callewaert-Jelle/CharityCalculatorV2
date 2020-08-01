@@ -162,3 +162,5 @@ D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\
 D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\obj\Debug\netcoreapp3.1\CharityCalculatorV2.genruntimeconfig.cache
 D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
 D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
+D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\obj\Debug\netcoreapp3.1\Razor\Views\Donor\Index.cshtml.g.cs
+D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\obj\Debug\netcoreapp3.1\Razor\Views\Donor\Result.cshtml.g.cs
