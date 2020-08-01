@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
 using CharityCalculatorV2.Models.Domain;
+using CharityCalculatorV2.Data.Repositories;
 
 namespace CharityCalculatorV2
 {
@@ -55,10 +56,12 @@ namespace CharityCalculatorV2
             });
 
             // Scoped services
+            services.AddScoped<DataInitializer>();
+            services.AddScoped<IAppVariableRepository, AppVariableRepository>();
+
             services.AddControllersWithViews();
             services.AddMvc();
             services.AddRazorPages();
-            services.AddScoped<DataInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
