@@ -19,6 +19,7 @@ namespace CharityCalculatorV2.Controllers
             _appVariableRepository = appVariableRepository;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -34,27 +35,28 @@ namespace CharityCalculatorV2.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public IActionResult Result(double amount)
         {
-            var result = CalculateDeductableAmount(amount);
-            ViewData["amount"] = result;
+            try
+            {
+                AppVariable taxRateVariable = _appVariableRepository.GetBy("TaxRate");
+                double taxRate = Convert.ToDouble(taxRateVariable.Value);
+                var result = CalculateDeductableAmount(taxRate, amount);
+                ViewData["amount"] = result;
+            }
+            catch(Exception e)
+            {
+                // do something?
+            }
             return View();
         }
 
-        private double CalculateDeductableAmount(double amount)
+        private double CalculateDeductableAmount(double taxRate, double amount)
         {
-            AppVariable taxRateVariable = _appVariableRepository.GetBy("TaxRate");
-            try
-            {
-                double taxRate = Convert.ToDouble(taxRateVariable.Value);
-                return amount * (taxRate / (100 - taxRate));
-            }
-            catch (Exception e)
-            {
-                // Handle exception
-            }
-            // Change this!!!
-            return 0;
+            double deductibleAmount = amount * (taxRate / (100 - taxRate));
+            deductibleAmount = Math.Round(deductibleAmount, 2, MidpointRounding.AwayFromZero);
+            return deductibleAmount;
         }
     }
 }
