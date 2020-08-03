@@ -8,5 +8,6 @@ namespace CharityCalculatorV2.Models.Domain
     public interface IAppVariableRepository
     {
         AppVariable GetBy(string name);
+        void SaveChanges();
     }
 }

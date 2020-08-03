@@ -165,3 +165,4 @@ D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\
 D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\obj\Debug\netcoreapp3.1\Razor\Views\Donor\Index.cshtml.g.cs
 D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\obj\Debug\netcoreapp3.1\Razor\Views\Donor\Result.cshtml.g.cs
 D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\obj\Debug\netcoreapp3.1\Razor\Views\Account\AccessDenied.cshtml.g.cs
+D:\Projects\InSites\CharityCalculatorV2\CharityCalculatorV2\CharityCalculatorV2\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Index.cshtml.g.cs
