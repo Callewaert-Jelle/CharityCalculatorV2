@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CharityCalculatorV2.Models.Domain;
 using CharityCalculatorV2.Models.DonationViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,13 @@ namespace CharityCalculatorV2.Controllers
     [Authorize(Policy = "Donor")]
     public class DonorController : Controller
     {
+        private readonly IAppVariableRepository _appVariableRepository;
+        public DonorController(
+            IAppVariableRepository appVariableRepository)
+        {
+            _appVariableRepository = appVariableRepository;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -35,8 +43,18 @@ namespace CharityCalculatorV2.Controllers
 
         private double CalculateDeductableAmount(double amount)
         {
-            const double taxRate = 20;
-            return amount * (taxRate / (100 - taxRate));
+            AppVariable taxRateVariable = _appVariableRepository.GetBy("TaxRate");
+            try
+            {
+                double taxRate = Convert.ToDouble(taxRateVariable.Value);
+                return amount * (taxRate / (100 - taxRate));
+            }
+            catch (Exception e)
+            {
+                // Handle exception
+            }
+            // Change this!!!
+            return 0;
         }
     }
 }

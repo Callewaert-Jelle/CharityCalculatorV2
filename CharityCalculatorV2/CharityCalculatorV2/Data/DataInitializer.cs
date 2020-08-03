@@ -25,7 +25,9 @@ namespace CharityCalculatorV2.Data
             if (_dbContext.Database.EnsureCreated())
             {
                 // Seed database
-
+                AppVariable taxRate = new AppVariable { Name = "TaxRate", Value = "20" };
+                _dbContext.AppVariables.Add(taxRate);
+                _dbContext.SaveChanges();
                 // Seed users
                 await InitializeUsers();
             }

@@ -61,6 +61,12 @@ namespace CharityCalculatorV2.Controllers
                     {
                         return RedirectToAction(nameof(DonorController.Index), "Donor");
                     }
+                    // detect if "admin" claim is present, show admin page
+                    bool adminClaim = claims.Any(c => c.Value == "admin");
+                    if (adminClaim)
+                    {
+                        return RedirectToAction(nameof(AdminController.Index), "Admin");
+                    }
                     // should not be able to get here (eventually)
                     // but if anything goes wrong, return Home Index
                     return RedirectToAction(nameof(Homecontroller.Index), "Home");

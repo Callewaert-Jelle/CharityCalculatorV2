@@ -1,0 +1,19 @@
+﻿@model CharityCalculatorV2.Models.TaxRateViewModel.TaxRateViewModel
+@{
+}
+
+<h2>Admin</h2>
+<h3>Change tax rate</h3>
+
+<div>
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="TaxRate"></label>
+            <input asp-for="TaxRate" value="@(ViewBag.CurrentTaxRate)" class="form-control" />
+            <span asp-validation-for="TaxRate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Edit</button>
+        </div>
+    </form>
+</div>
