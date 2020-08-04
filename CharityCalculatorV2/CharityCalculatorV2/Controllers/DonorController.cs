@@ -22,7 +22,7 @@ namespace CharityCalculatorV2.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(new DonationViewModel());
         }
 
         [HttpPost]
@@ -30,19 +30,19 @@ namespace CharityCalculatorV2.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Result), new { amount = model.Amount });
+                return RedirectToAction(nameof(Result), new { amount = model.Amount, eventType = model.EventType });
             }
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult Result(double amount)
+        public IActionResult Result(double amount, string eventType)
         {
             try
             {
                 AppVariable taxRateVariable = _appVariableRepository.GetBy("TaxRate");
                 double taxRate = Convert.ToDouble(taxRateVariable.Value);
-                var result = CalculateDeductableAmount(taxRate, amount);
+                var result = CalculateDeductableAmount(taxRate, amount, eventType);
                 ViewData["amount"] = result;
             }
             catch(Exception e)
@@ -52,9 +52,23 @@ namespace CharityCalculatorV2.Controllers
             return View();
         }
 
-        private double CalculateDeductableAmount(double taxRate, double amount)
+        private double CalculateDeductableAmount(double taxRate, double amount, string eventType)
         {
-            double deductibleAmount = amount * (taxRate / (100 - taxRate));
+            // hardcoded for now
+            double supplementAmplifier = 1;
+            switch (eventType)
+            {
+                case "Running": 
+                    supplementAmplifier = 1.05;
+                    break;
+                case "Swimming": 
+                    supplementAmplifier = 1.03;
+                    break;
+                default: 
+                    supplementAmplifier = 1;
+                    break;
+            }
+            double deductibleAmount = amount * supplementAmplifier * (taxRate / (100 - taxRate));
             deductibleAmount = Math.Round(deductibleAmount, 2, MidpointRounding.AwayFromZero);
             return deductibleAmount;
         }

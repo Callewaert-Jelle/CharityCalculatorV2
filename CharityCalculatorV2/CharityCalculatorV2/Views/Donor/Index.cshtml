@@ -13,6 +13,16 @@
             <span asp-validation-for="Amount" class="text-danger"></span>
         </div>
         <div class="form-group">
+            <label asp-for="EventType"></label>
+            <br />
+            @foreach (var eventType in Model.EventTypes)
+            {
+                <input type="radio" asp-for="EventType" value="@eventType" id="EventType@(eventType)"/> @eventType <br />
+                <!-- @Html.RadioButtonFor(model => model.EventType, eventType) @eventType -->
+            }
+            <span asp-validation-for="EventType" class="text-danger"></span>
+        </div>
+        <div class="form-group">
             <button type="submit" class="btn btn-default">Calculate</button>
         </div>
     </form>
