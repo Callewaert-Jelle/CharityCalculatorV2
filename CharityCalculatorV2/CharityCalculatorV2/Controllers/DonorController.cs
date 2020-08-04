@@ -55,20 +55,20 @@ namespace CharityCalculatorV2.Controllers
         private double CalculateDeductableAmount(double taxRate, double amount, string eventType)
         {
             // hardcoded for now
-            double supplementPercentage = 1;
+            double supplementAmplifier = 1;
             switch (eventType)
             {
                 case "Running": 
-                    supplementPercentage = 1.05;
+                    supplementAmplifier = 1.05;
                     break;
                 case "Swimming": 
-                    supplementPercentage = 1.03;
+                    supplementAmplifier = 1.03;
                     break;
                 default: 
-                    supplementPercentage = 1;
+                    supplementAmplifier = 1;
                     break;
             }
-            double deductibleAmount = amount * supplementPercentage * (taxRate / (100 - taxRate));
+            double deductibleAmount = amount * supplementAmplifier * (taxRate / (100 - taxRate));
             deductibleAmount = Math.Round(deductibleAmount, 2, MidpointRounding.AwayFromZero);
             return deductibleAmount;
         }
