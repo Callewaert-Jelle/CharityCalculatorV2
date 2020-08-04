@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,5 +11,8 @@ namespace CharityCalculatorV2.Models.DonationViewModel
     {
         [Required]
         public double Amount { get; set; }
+        [BindProperty]
+        public string EventType { get; set; }
+        public string[] EventTypes { get; set; } = new[] { "Running", "Swimming", "Other" };
     }
 }

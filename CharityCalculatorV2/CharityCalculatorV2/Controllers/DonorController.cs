@@ -22,7 +22,7 @@ namespace CharityCalculatorV2.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(new DonationViewModel());
         }
 
         [HttpPost]
