@@ -30,19 +30,19 @@ namespace CharityCalculatorV2.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Result), new { amount = model.Amount });
+                return RedirectToAction(nameof(Result), new { amount = model.Amount, eventType = model.EventType });
             }
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult Result(double amount)
+        public IActionResult Result(double amount, string eventType)
         {
             try
             {
                 AppVariable taxRateVariable = _appVariableRepository.GetBy("TaxRate");
                 double taxRate = Convert.ToDouble(taxRateVariable.Value);
-                var result = CalculateDeductableAmount(taxRate, amount);
+                var result = CalculateDeductableAmount(taxRate, amount, eventType);
                 ViewData["amount"] = result;
             }
             catch(Exception e)
@@ -52,9 +52,23 @@ namespace CharityCalculatorV2.Controllers
             return View();
         }
 
-        private double CalculateDeductableAmount(double taxRate, double amount)
+        private double CalculateDeductableAmount(double taxRate, double amount, string eventType)
         {
-            double deductibleAmount = amount * (taxRate / (100 - taxRate));
+            // hardcoded for now
+            double supplementPercentage = 1;
+            switch (eventType)
+            {
+                case "Running": 
+                    supplementPercentage = 1.05;
+                    break;
+                case "Swimming": 
+                    supplementPercentage = 1.03;
+                    break;
+                default: 
+                    supplementPercentage = 1;
+                    break;
+            }
+            double deductibleAmount = amount * supplementPercentage * (taxRate / (100 - taxRate));
             deductibleAmount = Math.Round(deductibleAmount, 2, MidpointRounding.AwayFromZero);
             return deductibleAmount;
         }
