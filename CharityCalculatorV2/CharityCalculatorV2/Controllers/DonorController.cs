@@ -25,7 +25,6 @@ namespace CharityCalculatorV2.Controllers
             return View(new DonationViewModel());
         }
 
-        [HttpPost]
         public IActionResult Index(DonationViewModel model)
         {
             if (ModelState.IsValid)

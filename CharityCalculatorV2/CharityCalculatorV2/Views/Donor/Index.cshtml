@@ -27,3 +27,17 @@
         </div>
     </form>
 </div>
+
+<script>
+    $.ajax({
+        type: "POST",
+        url: '/Index',
+        data: {
+            model: Model
+        },
+        headers: {
+            RequestVerificationToken:
+                $('input:hidden[name="__RequestVerificationToken"]').val()
+        }
+    });
+</script>
