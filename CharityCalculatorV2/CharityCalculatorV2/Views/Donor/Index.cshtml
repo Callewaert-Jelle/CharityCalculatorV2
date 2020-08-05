@@ -6,38 +6,43 @@
 <h3>Calculate the amount that can be deducted from your taxes!</h3>
 
 <div>
-    <form method="post">
-        <div class="form-group">
-            <label asp-for="Amount"></label>
-            <input asp-for="Amount" class="form-control" />
-            <span asp-validation-for="Amount" class="text-danger"></span>
+    <div id="FormDiv">
+        <div class="amount">
+            @Html.LabelFor(m => m.Amount)
+            @Html.EditorFor(m => m.Amount)
+            @Html.ValidationMessageFor(m => m.Amount)
         </div>
-        <div class="form-group">
-            <label asp-for="EventType"></label>
+        <div class="eventType">
+            @Html.LabelFor(m => m.EventType)
             <br />
             @foreach (var eventType in Model.EventTypes)
             {
-                <input type="radio" asp-for="EventType" value="@eventType" id="EventType@(eventType)"/> @eventType <br />
-                <!-- @Html.RadioButtonFor(model => model.EventType, eventType) @eventType -->
+                <!--<input type="radio" asp-for="EventType" value="@eventType" id="EventType@(eventType)" /> @eventType <br />-->
+                @Html.RadioButtonFor(model => model.EventType, eventType) @eventType
+                <br />
             }
-            <span asp-validation-for="EventType" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-default">Calculate</button>
+            <button type="submit" class="btn btn-default" id="PostButton">Calculate</button>
         </div>
-    </form>
+    </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
-    $.ajax({
-        type: "POST",
-        url: '/Index',
-        data: {
-            model: Model
-        },
-        headers: {
-            RequestVerificationToken:
-                $('input:hidden[name="__RequestVerificationToken"]').val()
-        }
+    $(document).ready(function () {
+        var viewModel = {
+            Amount: 50000, //$('@Html.IdFor(m => m.Amount)').val(),
+            EventType: "Running" //$('@Html.IdFor(m => m.EventType)').val()
+        };
+
+        $('PostButton').click(function (e) {
+            $.ajax({
+                url: "/Donor/Index",
+                type: "POST",
+                data: viewModel,
+            });
+        });
     });
 </script>
