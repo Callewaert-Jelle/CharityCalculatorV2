@@ -22,6 +22,7 @@ namespace CharityCalculatorV2.Controllers
         {
             _appVariableRepository = appVariableRepository;
             _userManager = userManager;
+            GetCurrentUserAsync();
         }
 
         [HttpGet]
@@ -33,9 +34,21 @@ namespace CharityCalculatorV2.Controllers
         [HttpPost]
         public IActionResult Index(DonationViewModel model)
         {
+            var values = ModelState.Values;
             if (ModelState.IsValid)
             {
+                try
+                {
+                    var taxRate = Convert.ToDouble(_appVariableRepository.GetBy("TaxRate"));
+                    Calculation calc = new Calculation(_user, model.Amount, taxRate, model.EventType);
+                    // store in repository
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e.Message);
+                }
                 return RedirectToAction(nameof(Result), new { amount = model.Amount, eventType = model.EventType });
+                // change this to comply with new Calculation class
             }
             return View(model);
         }
@@ -68,7 +81,7 @@ namespace CharityCalculatorV2.Controllers
 
         private async void GetCurrentUserAsync()
         {
-            ApplicationUser user = await _userManager.GetUserAsync(User);
+            ApplicationUser user = await _userManager?.GetUserAsync(User);
             _user = user;
         }
     }

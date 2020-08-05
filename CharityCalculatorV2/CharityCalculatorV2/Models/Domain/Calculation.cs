@@ -12,10 +12,22 @@ namespace CharityCalculatorV2.Models.Domain
         public double UsedTaxRate { get; set; }
         public string EventType { get; set; }
 
+        protected Calculation()
+        {
+
+        }
         public Calculation(ApplicationUser user, double amountInserted, double usedTaxRate, string eventType)
         {
             User = user;
+            if (amountInserted <= 0)
+            {
+                throw new ArgumentException();
+            }
             AmountInserted = amountInserted;
+            if (usedTaxRate <= 0 || usedTaxRate >= 100)
+            {
+                throw new ArgumentException();
+            }
             UsedTaxRate = usedTaxRate;
             EventType = eventType;
         }
