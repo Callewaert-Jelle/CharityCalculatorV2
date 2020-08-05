@@ -91,7 +91,7 @@ namespace CharityCalculatorV2
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Account}/{action=Login}");
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
 
