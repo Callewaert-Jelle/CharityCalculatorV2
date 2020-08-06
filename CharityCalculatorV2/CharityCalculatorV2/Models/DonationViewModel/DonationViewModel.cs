@@ -10,7 +10,7 @@ namespace CharityCalculatorV2.Models.DonationViewModel
     public class DonationViewModel
     {
         [Required(ErrorMessage = "Please enter a number.")]
-        [RegularExpression(@"[0-9]*[,]?[0-9]*", ErrorMessage = "No characters allowed.")]
+        [Range(0, int.MaxValue, ErrorMessage = "{0} may not be a negative value.")]
         public double Amount { get; set; }
         [BindProperty, Required(ErrorMessage = "Please select a type of event.")]
         [Display(Name = "Event type")]

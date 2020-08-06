@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharityCalculatorV2", "CharityCalculatorV2\CharityCalculatorV2.csproj", "{2347F8C1-6097-4DC3-8A5F-59F1C7B08BFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharityCalculatorV2", "CharityCalculatorV2\CharityCalculatorV2.csproj", "{2347F8C1-6097-4DC3-8A5F-59F1C7B08BFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharityCalculator.Tests", "CharityCalculator.Tests\CharityCalculator.Tests.csproj", "{4AE3BFD9-4604-4050-BEC4-3251ECFEC52B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2347F8C1-6097-4DC3-8A5F-59F1C7B08BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2347F8C1-6097-4DC3-8A5F-59F1C7B08BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2347F8C1-6097-4DC3-8A5F-59F1C7B08BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AE3BFD9-4604-4050-BEC4-3251ECFEC52B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AE3BFD9-4604-4050-BEC4-3251ECFEC52B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AE3BFD9-4604-4050-BEC4-3251ECFEC52B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AE3BFD9-4604-4050-BEC4-3251ECFEC52B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
